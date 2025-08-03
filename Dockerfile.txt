@@ -56,3 +56,91 @@ ENV PORT=3000
 
 Son como variables Globales-locales je del contexto de ejecucion de la imagen (contenedor). EPP: Variables similares a las que se setean en las terminales de linux con export=var, para que el daemon las pueda consultar y setear valores de la app. 
 
+# Set the working directory
+WORKDIR /usr/src/app 
+
+Es una ruta de linux: 
+/usr es un directorio estándar en Linux donde se instalan archivos de usuario y programas.
+/usr/src generalmente es usado para código fuente, archivos de desarrollo o aplicaciones.
+/usr/src/app es una ruta común para colocar el código de una aplicación dentro del contenedor para su ejecución o construcción.
+
+Esto significa que dentro del contenedor, el directorio de trabajo actual será /usr/src/app. En términos prácticos, la aplicación que se está ejecutando dentro del contenedor lo hará dentro de este folder, es decir que el proceso (como tu app Node.js u otra) tendrá por defecto ese directorio como base para ejecutar comandos, abrir archivos, instalar dependencias, etc.
+EPP: Setear un folder de trabajo. 
+
+
+# Copy package.json and package-lock.json files
+COPY package*.json ./
+
+
+En proyectos Python, como los que usan Flask o Django, se suele tener un archivo llamado requirements.txt que lista todas las dependencias o paquetes que la aplicación necesita. En el Dockerfile se copia ese archivo (desde mi PC) a la imagen con una instrucción como COPY requirements.txt ./. El ./ (punto y barra) significa «al lugar actual» dentro del contenedor, que previamente se definió con WORKDIR como una carpeta específica donde se trabajará (por ejemplo /usr/src/app). En proyectos Node.js, en cambio, se usan archivos como package.json y package-lock.json para gestionar las dependencias. Así que en el Dockerfile se hace algo similar pero copiando esos archivos: COPY package*.json ./
+
+# Install dependencies
+RUN npm install --production
+
+COPY — copias los archivos (package.json y package-lock.json) al contenedor, para tener la "receta" de dependencias.
+RUN — ejecutas el comando (npm install --production) dentro del contenedor para que realmente se instalen esas dependencias que copiaste.
+
+
+# Copy the rest of the application code
+COPY . .
+
+significa copiar todo el contenido del contexto de construcción local (tu carpeta actual en el equipo donde haces el build) al directorio de trabajo dentro del contenedor, que en el paso previo se ha definido con WORKDIR (por ejemplo /usr/src/app).
+En otras palabras, esta línea toma todo el código fuente y archivos del proyecto que no hayan sido excluidos (por ejemplo en .dockerignore) y los copia dentro del contenedor para que estén disponibles cuando se ejecute la aplicación.
+Algunos puntos importantes para entender este paso y buenas prácticas:
+El primer punto (.) es el origen en tu máquina local (tu carpeta del proyecto).
+El segundo punto (.) es el destino dentro del contenedor, relativa al WORKDIR definido antes.
+Es importante usar .dockerignore para evitar copiar archivos que no se necesitan (como .git, node_modules ya instalados, logs, archivos temporales, etc.), para que la imagen no sea demasiado pesada ni insegura.
+Copiar todo el proyecto permite que el contenedor tenga todo el código y recursos necesarios para la aplicación.
+
+# Add additional file
+ADD public/index.html /app/public/index.html
+
+ADD sirve para copiar archivos o directorios desde tu máquina local (host) hacia la imagen Docker que estás construyendo, similar a COPY.
+La diferencia principal con COPY es que ADD puede además:
+Descomprimir automáticamente archivos comprimidos (por ejemplo, .tar.gz).
+Descargar archivos desde una URL remota (cuando usas una URL como origen).
+En este caso, usas ADD para copiar el archivo public/index.html que está en tu máquina local hacia /app/public/index.html dentro del contenedor.
+El primer argumento es la ruta origen en tu PC, relativa al contexto de construcción donde ejecutas el build de la imagen.
+
+
+# Expose the port on which the application will run
+EXPOSE $PORT
+
+EXPOSE le dice a Docker que el contenedor va a estar escuchando (aceptando conexiones) en un puerto específico cuando esté corriendo.
+En este caso usas $PORT, que es una variable de entorno definida antes en el Dockerfile con ENV PORT=3000, por ejemplo. Esto hace que Docker entienda que el contenedor usará el puerto que esté configurado en esa variable (en este caso, 3000). EPP: esto le dice a Docker: voy a usar este puerto para comunicarme. 
+
+
+# Specify the default command to run when the container starts
+CMD ["node", "app.js"]
+
+En resumen, CMD ["node", "app.js"] dice: “Cuando arranque el contenedor, ejecuta el comando node app.js para iniciar la aplicación Node”.
+
+
+
+# Labeling the image
+LABEL version="1.0"
+LABEL description="Node.js application Docker image"
+LABEL maintainer="Your Name"
+
+Agregar metadatos a la imagen, tipo, darle un nombre :), especificar la versión. etc. 
+
+
+# Healthcheck to ensure the container is running correctly
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -fs http://localhost:$PORT || exit 1
+
+
+¿Para qué sirve HEALTHCHECK?
+Sirve para que Docker verifique automáticamente si tu contenedor está funcionando correctamente.
+Docker va a ejecutar periódicamente un comando para chequear la "salud" del contenedor.
+Si el chequeo falla, Docker puede marcar ese contenedor como "unhealthy" (no saludable).
+Esto ayuda a detectar problemas rápidamente, por ejemplo para reiniciar el contenedor, integrarlo con sistemas de orquestación, o alertar al equipo.
+
+
+
+
+# Set a non-root user for security purposes
+USER node
+
+Por seguridad, es una buena práctica no ejecutar la aplicación como usuario root (administrador del sistema), ya que si la aplicación o proceso dentro del contenedor falla o es comprometido, el atacante tendría acceso root.
+Docker por defecto corre como root, pero muchos contenedores oficiales (como la imagen oficial de Node.js) incluyen un usuario no root llamado node.
+Cambiar a un usuario no root limita los permisos, reduciendo la superficie de ataque y evitando errores relacionados con permisos excesivos.
