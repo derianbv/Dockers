@@ -48,5 +48,11 @@ USER node
 # Use the official Node.js image as the base image
 FROM node:14
 
-EN este caso FROM lo que hace es indicar qué base (o cimientos) vamos a utilizar para correr nuestra aplicación. Esta base es una imagen previa, en este caso, los desarrolladores de Node.js desarrollaron su app hasta
-  la version 13
+En este caso FROM lo que hace es indicar qué base (o cimientos) vamos a utilizar para correr y guardar nuestra aplicación. Esta base es una imagen previa: en este caso, los desarrolladores de Node.js desarrollaron su app hasta la version 14. En teoría lo que sucede es que nosotros agarramos esa versión o ese playground (o imagen), y luego creamos cosas nuevas encima o la modificamos. Los dos puntos de :14 es la versión que se usa de ese sistema. Cuando hacemos FROM lo que hace el daemon es ver si el host tiene esa imagen (node) y si no va a DockerHub y la descarga en nuestro pc automaticamente. 
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+
+Son como variables Globales-locales je del contexto de ejecucion de la imagen (contenedor). EPP: Variables similares a las que se setean en las terminales de linux con export=var, para que el daemon las pueda consultar y setear valores de la app. 
+
