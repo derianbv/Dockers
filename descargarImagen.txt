@@ -1,0 +1,5 @@
+Pasos para descargar una imagen de DockerHub: 
+
+0. Verificar si tengo docker: 
+
+docker --version
