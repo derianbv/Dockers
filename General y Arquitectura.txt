@@ -7,7 +7,7 @@ Por otro lado, los contenedores lo que hacen es que virtualizan el SISTEMA OPERA
 
 La app de Docker posee varios tipos da datos: 
 1. El Dockerfile es un archivo de texto con instrucciones paso a paso para construir una imagen Docker. Define qué software instalar y cómo configurar la imagen.
-2. La imagen es el resultado de construir un Dockerfile; es un archivo de solo lectura que contiene la app y el entorno necesario, es como las instrucciones para montar lo que va arriba del kernel para que corra la app y montar la app también en ese entorno :p.
+2. La imagen es el resultado de construir un Dockerfile; es un archivo de solo lectura que contiene la app y el entorno necesario, es como las instrucciones para montar lo que va arriba del kernel para que corra la app y montar la app también en ese entorno :p. Las imagenes se pueden guardar loacalmente o en internet, parecidos a los registros de git, para poder descargarse en cualquier lugar y estar siempre a la mano. 
 3. El contenedor es la instancia en ejecución creada a partir de esa imagen, donde corre la aplicación.
 
 
