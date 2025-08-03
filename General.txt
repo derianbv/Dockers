@@ -6,7 +6,6 @@ Las máquinas virtuales agarran un servidor (que es en esencia un PC físico pot
 Por otro lado, los contenedores lo que hacen es que virtualizan el SISTEMA OPERATIVO. Lo que hace es que sube el Kernel de linux que es igual para todas las versiones de Linux, entonces, cuando crear un contenedor, lo unico que hace es traer las capas de linux extras necesarias para correr la app aprovechando el Kernel que es compartido, esto hace que sean super livianos. EPP: Es como decir: para correr mi app lo que hago es que te monto un sistema operativo en donde quieras. En mi pc compilaba, ah sí? entonces traeme tu pc. Y en realidad le trae el pc pero de manera remota -> clever. Y 
 
 La app de Docker posee varios tipos da datos: 
-1. Dockerfile: un archivo de texto que dice como crear la imagen del contendor.
-2. Imagen: Se trata de los planos para crear un contenedor.
-3. Contenedor: es como un ambiente en dónde se corre una aplicación. 
-
+1. El Dockerfile es un archivo de texto con instrucciones paso a paso para construir una imagen Docker. Define qué software instalar y cómo configurar la imagen.
+2. La imagen es el resultado de construir un Dockerfile; es un archivo de solo lectura que contiene la app y el entorno necesario.
+3. El contenedor es la instancia en ejecución creada a partir de esa imagen, donde corre la aplicación.
