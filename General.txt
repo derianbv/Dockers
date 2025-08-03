@@ -1,5 +1,12 @@
 Los Dockers: 
 Son encapsulamientos de código para que puedan ser enviados y recibidos y funcionen en todas partes. Se trata de tomar una foto (imagen) del proyecto en ese momento y enviar eso. 
+Tienen similitud con las máquinas virtuales ya que cada contenedor es casi lo mismo en funcionamiento, pero en el fondo están construidos diferentes: 
+Las máquinas virtuales agarran un servidor (que es en esencia un PC físico potente en algún data center) y dividen sus recursos físicos en diferentes porciones (usando una tecnología llamada hipervisor) para que en cada uno de estos se instalen diferentes sistemas operativos y puedan correr diferentes apps. En este caso están virtualizando el HARDWARE del PC. Lo malo de esto es que en cada división se tiene que instalar una version de sistema operativo diferente y esto puede requerir muchos recuros, imagina que tienes 5 debians montados en 5 máquinas virtuales, en verdad repites cosas que podrías solo guardar una vez.  
+
+Por otro lado, los contenedores lo que hacen es que virtualizan el SISTEMA OPERATIVO. Lo que hace es que sube el Kernel de linux que es igual para todas las versiones de Linux, entonces, cuando crear un contenedor, lo unico que hace es traer las capas de linux extras necesarias para correr la app aprovechando el Kernel que es compartido, esto hace que sean super livianos. EPP: Es como decir: para correr mi app lo que hago es que te monto un sistema operativo en donde quieras. En mi pc compilaba, ah sí? entonces traeme tu pc. Y en realidad le trae el pc pero de manera remota -> clever. Y 
 
 La app de Docker posee varios tipos da datos: 
 1. Dockerfile: un archivo de texto que dice como crear la imagen del contendor.
+2. Imagen: Se trata de los planos para crear un contenedor.
+3. Contenedor: es como un ambiente en dónde se corre una aplicación. 
+
