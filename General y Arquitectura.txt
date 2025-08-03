@@ -17,4 +17,4 @@ ARQUITECTURA: ------------------------------------------------------------------
 
 1. Host Docker: PC en dónde está instalado Docker (puede ser mi PC o un servidor [q es un super pc de alguien más]). Es el PC que da los recursos FÍSICOS para correr los contenedores.
 
-2. Cliente Docker (CL: Command Line): Es una terminal en donde se pasan peticiones al Host, que luego el daemon lee y ejecuta. Peticiones como: "docker run"
+2. Cliente Docker (CL: Command Line): Es una terminal en donde se pasan peticiones al Host, que luego el daemon lee y ejecuta. Peticiones como: "docker run". Las peticiones son API REST. 
