@@ -1,0 +1,5 @@
+Los Dockers: 
+Son encapsulamientos de código para que puedan ser enviados y recibidos y funcionen en todas partes. Se trata de tomar una foto (imagen) del proyecto en ese momento y enviar eso. 
+
+La app de Docker posee varios tipos da datos: 
+1. Dockerfile: un archivo de texto que dice como crear la imagen del contendor.
