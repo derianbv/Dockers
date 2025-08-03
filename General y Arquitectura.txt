@@ -11,3 +11,10 @@ La app de Docker posee varios tipos da datos:
 3. El contenedor es la instancia en ejecución creada a partir de esa imagen, donde corre la aplicación.
 
 
+
+ARQUITECTURA: ----------------------------------------------------------------------------------------------------------------------------------
+0. Daemon (Dockerd): el f goat, el corazón o motor de Docker. Está montado en el PC que tenga descargado Docker, como es un daemon siempre está corriendo en segundo plano, es como el que hace todo el trabajo sucio de enviar, recibir peticiones API REST, correr las imagenes, implementar los archivos. etc, para que los contenedores funcionen.
+
+1. Host Docker: PC en dónde está instalado Docker (puede ser mi PC o un servidor [q es un super pc de alguien más]). Es el PC que da los recursos FÍSICOS para correr los contenedores.
+
+2. Cliente Docker (CL: Command Line): Es una terminal en donde se pasan peticiones al Host, que luego el daemon lee y ejecuta. Peticiones como: "docker run"
