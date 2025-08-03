@@ -1,4 +1,4 @@
-Pasos para descargar una imagen de DockerHub: 
+Pasos para descargar una imagen de DockerHub: ------------------------------------------------------------------------------------------------------------------------------------------
 
 0. Verificar si tengo docker: 
 
@@ -37,3 +37,40 @@ Share images, automate workflows, and more with a free Docker ID:
 
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/"
+
+
+
+Crear imagenes ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+0. crear mi archivo Dockerfile: 
+
+FROM node:9.4.0-alpine
+COPY app.js .
+COPY package.json .
+RUN npm install &&\
+    apk update &&\
+    apk upgrade
+EXPOSE  8080
+CMD node app.js
+
+
+1. buildearlo con linux: 
+
+"docker build . -t myimage:v1"
+
+acá agarra el dockerfile y crea la imagen de mi archivo: (docker images:)
+
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+myimage       v1        034fe82dac28   13 seconds ago   77.8MB
+
+MAGIA. 
+
+2. Ahora que está creada la imagen la puedo ejecutar (es decir crear un contenedor): 
+
+docker run -dp 8080:8080 myimage:v1 
+
+curl localhost:8080 //esta cosa descargaba algo de una url en linux, lo que descargo es: 
+
+"Hello world from b31dac61af2b! Your app is up and running!"
+
+3. pararla con: "docker stop $(docker ps -q)" y confirmar si paró con: "docker ps"
